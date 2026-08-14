@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { RobotsService } from './robots.service';
 import { CreateRobotStatusDto } from './dtos/create-robot-status.dto';
+import { QueryRobotStatusDto } from './dtos/query-robot-status.dto';
 
 @Controller('robots')
 export class RobotsController {
@@ -17,5 +18,10 @@ export class RobotsController {
   }
 
   @Get(':id/history')
-  findStatusHistory() {}
+  findStatusHistory(
+    @Param('id') id: string,
+    @Query() query: QueryRobotStatusDto,
+  ) {
+    return this.RobotService.findStatusHistory(id, query);
+  }
 }

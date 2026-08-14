@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Robot } from './entities/robot.entity';
 import { RobotStatus } from './entities/robot-status.entity';
 import { CreateRobotStatusDto } from './dtos/create-robot-status.dto';
+import { QueryRobotStatusDto } from './dtos/query-robot-status.dto';
 
 @Injectable()
 export class RobotsService {
@@ -58,5 +59,32 @@ export class RobotsService {
     return this.statusRepo.save(status);
   }
 
-  async findStatusHistory() {}
+  async findStatusHistory(
+    robotId: string,
+    query: QueryRobotStatusDto,
+  ): Promise<{
+    data: RobotStatus[];
+    total: number;
+    page: number;
+    limit: number;
+  }> {
+    const robot = await this.robotRepo.findOne({
+      where: { id: robotId },
+    });
+
+    if (!robot) {
+      throw new NotFoundException(`Robot ${robotId} not found`);
+    }
+
+    const { page = 1, limit = 20 } = query;
+
+    const [data, total] = await this.statusRepo.findAndCount({
+      where: { robotId },
+      order: { lastSeen: 'DESC' },
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+
+    return { data, total, page, limit };
+  }
 }
