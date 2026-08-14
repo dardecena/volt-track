@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Robot } from './entities/robot.entity';
 import { RobotStatus } from './entities/robot-status.entity';
+import { CreateRobotStatusDto } from './dtos/create-robot-status.dto';
 
 @Injectable()
 export class RobotsService {
@@ -35,7 +36,27 @@ export class RobotsService {
     }));
   }
 
-  async createStatus() {}
+  async createStatus(
+    robotId: string,
+    dto: CreateRobotStatusDto,
+  ): Promise<RobotStatus> {
+    const robot = await this.robotRepo.findOne({
+      where: { id: robotId },
+    });
+
+    if (!robot) {
+      throw new NotFoundException(`Robot ${robotId} not found`);
+    }
+
+    const status = this.statusRepo.create({
+      robotId,
+      ...dto,
+      lastSeen: new Date(dto.lastSeen),
+      errorCode: dto.errorCode ?? null,
+    });
+
+    return this.statusRepo.save(status);
+  }
 
   async findStatusHistory() {}
 }
