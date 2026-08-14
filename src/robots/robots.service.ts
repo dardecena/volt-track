@@ -13,8 +13,26 @@ export class RobotsService {
     private readonly statusRepo: Repository<RobotStatus>,
   ) {}
 
-  async findAllRobots(): Promise<Robot[]> {
-    return this.robotRepo.find();
+  async findAllRobots(): Promise<
+    Array<Robot & { latestStatus: RobotStatus | null }>
+  > {
+    const robots = await this.robotRepo.find();
+    if (robots.length === 0) return [];
+
+    const latestStatuses = await this.statusRepo
+      .createQueryBuilder('status')
+      .distinctOn(['status.robotId'])
+      .where('status.robotId IN (:...ids)', { ids: robots.map((r) => r.id) })
+      .orderBy('status.robotId')
+      .addOrderBy('status.lastSeen', 'DESC')
+      .getMany();
+
+    const latestByRobotId = new Map(latestStatuses.map((s) => [s.robotId, s]));
+
+    return robots.map((robot) => ({
+      ...robot,
+      latestStatus: latestByRobotId.get(robot.id) ?? null,
+    }));
   }
 
   async createStatus() {}
