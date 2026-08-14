@@ -6,13 +6,13 @@ import {
   Index,
   JoinColumn,
   ManyToOne,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Robot } from './robot.entity';
 
 @Entity()
 export class RobotStatus {
-  @PrimaryColumn({ type: 'varchar', length: 5 })
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @ManyToOne(() => Robot)
@@ -30,7 +30,6 @@ export class RobotStatus {
   chargingState: ChargingState;
 
   @Column({ type: 'timestamp with time zone' })
-  @Index(['robotId', 'lastSeen'])
   lastSeen: Date;
 
   @Column({ type: 'int', nullable: true })

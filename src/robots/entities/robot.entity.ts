@@ -11,7 +11,7 @@ export class Robot {
   @PrimaryColumn({ type: 'varchar', length: 5 })
   id: string;
 
-  @CreateDateColumn({ type: 'timestamp with time zone', default: new Date() })
+  @CreateDateColumn({ type: 'timestamp with time zone' })
   createdAt: Date;
 
   @UpdateDateColumn({ type: 'timestamp with time zone' })
