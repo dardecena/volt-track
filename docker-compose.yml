@@ -1,0 +1,9 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: charging_portal
+      POSTGRES_USER: rocsys
+      POSTGRES_PASSWORD: rocsys
+    ports:
+      - "5432:5432"
