@@ -23,7 +23,6 @@ export class RobotsService {
 
     const latestStatuses = await this.statusRepo
       .createQueryBuilder('status')
-      .distinctOn(['status.robotId'])
       .where('status.robotId IN (:...ids)', { ids: robots.map((r) => r.id) })
       .orderBy('status.robotId')
       .addOrderBy('status.lastSeen', 'DESC')
