@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from './config/configuration';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { RobotsModule } from './robots/robots.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         database: config.get<string>('database.database'),
       }),
     }),
+    RobotsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
