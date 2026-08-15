@@ -4,6 +4,7 @@
 
 <template>
  <v-app>
+   <!-- Navigation  -->
    <v-navigation-drawer color="red" width="240">
      <div class="d-flex align-center ga-2 pa-4">
        <v-avatar size="32" color="primary">
@@ -11,8 +12,17 @@
        </v-avatar>
        <span class="text-h6 font-weight-bold">VoltTrack</span>
      </div>
+     <v-list nav density="compact" class="px-2">
+       <v-list-item
+           title="Fleet Monitor"
+           prepend-icon="mdi-view-dashboard"
+           active
+       />
+     </v-list>
    </v-navigation-drawer>
+   <!-- Header  -->
    <v-app-bar color="green"></v-app-bar>
+   <!-- FleetTable and StatusPanel  -->
    <v-main></v-main>
  </v-app>
 </template>
