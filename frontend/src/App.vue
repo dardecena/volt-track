@@ -21,8 +21,27 @@
      </v-list>
    </v-navigation-drawer>
    <!-- Header  -->
-   <v-app-bar color="green"></v-app-bar>
+   <v-app-bar flat color="green">
+     <v-app-bar-title class="header-title">
+       <div>Fleet monitor</div>
+     </v-app-bar-title>
+     <v-spacer />
+     <v-btn
+         icon="mdi-refresh"
+         variant="text"
+         color="grey-darken-1"
+     />
+   </v-app-bar>
    <!-- FleetTable and StatusPanel  -->
    <v-main></v-main>
  </v-app>
 </template>
+
+<style scoped>
+
+.header-title {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+</style>
