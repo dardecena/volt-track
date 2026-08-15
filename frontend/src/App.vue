@@ -1,5 +1,11 @@
 <script setup lang="ts">
+import { onMounted } from "vue";
+import { useRobots } from "./composables/useRobots.ts";
+import FleetTable from "./components/FleetTable.vue";
 
+const { loadRobots } = useRobots();
+
+onMounted(() => loadRobots());
 </script>
 
 <template>
@@ -33,7 +39,9 @@
      />
    </v-app-bar>
    <!-- FleetTable and StatusPanel  -->
-   <v-main></v-main>
+   <v-main>
+    <FleetTable/>
+   </v-main>
  </v-app>
 </template>
 
