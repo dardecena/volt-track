@@ -39,7 +39,7 @@ onMounted(() => loadRobots());
     </v-navigation-drawer>
 
     <!-- Header  -->
-    <v-app-bar flat color="green">
+    <v-app-bar flat>
       <v-app-bar-title class="header-title">
         <div>Fleet monitor</div>
       </v-app-bar-title>
