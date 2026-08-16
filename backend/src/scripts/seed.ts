@@ -34,7 +34,7 @@ async function seed() {
 
   console.log('Seeding robots...');
 
-  const robotIds = generateUniqueShortIds(10);
+  const robotIds = generateUniqueShortIds(11);
   const robots = await robotRepo.save(
     robotRepo.create(robotIds.map((id) => ({ id }))), // 10 robots
   );
