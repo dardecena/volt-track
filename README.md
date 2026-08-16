@@ -8,7 +8,7 @@ A simple dashboard for a robotic charging system.
 - **Frontend:** Vue 3, Vuetify, Vite
 - **Database:** PostgreSQL (via Docker Compose)
 
-## Pre-requisites
+## Prerequisites
 
 - NodeJS (v20+)
 - Docker & Docker Compose
@@ -27,6 +27,7 @@ cd ../frontend && npm install
 ```
 
 ### 2. Set up environment variables
+From the volt-track directory:
 
 ```bash
 cp backend/.env.example backend/.env
@@ -40,19 +41,19 @@ docker compose up -d
 ```
 
 ### 4. Run migrations
-
+From the backend directory:
 ```bash
 npm run migration:run
 ```
 
 ### 5. Seed the database
-
+From the backend directory:
 ```bash
 npm run seed
 ```
 
 ### 6. Start the backend
-
+From the backend directory:
 ```bash
 npm run start:dev
 ```
@@ -61,7 +62,7 @@ Runs on `http://localhost:3000`
 
 ### 7. Start the frontend
 
-In a separate terminal:
+In a separate terminal, on the frontend directory:
 
 ```bash
 npm run start:dev
