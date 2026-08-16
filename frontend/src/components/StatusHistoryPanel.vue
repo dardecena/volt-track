@@ -1,6 +1,6 @@
-<script setup lang='ts'>
-import { toRef, ref } from 'vue';
-import { useStatusHistory } from '../composables/useStatusHistory';
+<script setup lang="ts">
+import { toRef, ref } from "vue";
+import { useStatusHistory } from "../composables/useStatusHistory";
 import { batteryColor, getDisplayStatus } from "frontend/src/utils/status.ts";
 import { toDatetimeLocal } from "frontend/src/utils/datetime.ts";
 
@@ -8,7 +8,7 @@ const props = defineProps<{
   robotId: string | null;
 }>()
 
-const robotId = toRef(props, 'robotId');
+const robotId = toRef(props, "robotId");
 const showRefreshed = ref(false);
 const { history, loading, error, page, pageCount, goToPage } = useStatusHistory(robotId);
 </script>
@@ -18,12 +18,12 @@ const { history, loading, error, page, pageCount, goToPage } = useStatusHistory(
     <v-card-item>
       <template #title>
         <span class="text-h6 font-weight-bold text-medium-emphasis">
-          {{ robotId ? `Robot ID ${robotId}` : 'Status History'}}
+          {{ robotId ? `Robot ID ${robotId}` : "Status History"}}
         </span>
       </template>
       <template #subtitle>
         <span class="panel-subtitle">
-          {{ robotId? 'Detailed History' : 'Select a machine to view details'}}
+          {{ robotId? "Detailed History" : "Select a machine to view details"}}
         </span>
       </template>
     </v-card-item>
@@ -73,16 +73,16 @@ const { history, loading, error, page, pageCount, goToPage } = useStatusHistory(
             <div class="timeline-entry">
 <!--              <div class="d-flex justify-space-between align-baseline">-->
               <!--  Status -->
-                <div class='timeline-entry__label'>
+                <div class="timeline-entry__label">
                   {{ getDisplayStatus(entry).label }}
                 </div>
                 <!--  Timestamp -->
-                <div class='timeline-entry__time'>
+                <div class="timeline-entry__time">
                   {{ toDatetimeLocal(entry.lastSeen) }}
                 </div>
 <!--              </div>-->
               <!--  Battery -->
-              <div class='timeline-entry__battery'>
+              <div class="timeline-entry__battery">
                 <v-progress-linear
                   :model-value="entry.batteryLevel"
                   :color=batteryColor(entry.batteryLevel)
@@ -107,23 +107,23 @@ const { history, loading, error, page, pageCount, goToPage } = useStatusHistory(
     <template v-if="robotId">
       <v-divider v-if="robotId"/>
 
-      <div class='d-flex align-center justify-space-between pa-4 history-panel__footer'>
+      <div class="d-flex align-center justify-space-between pa-4 history-panel__footer">
         <v-btn
-            icon='mdi-chevron-left'
-            size='small'
-            variant='text'
-            :disabled='page <= 1'
-            @click='goToPage(page - 1)'
+            icon="mdi-chevron-left"
+            size="small"
+            variant="text"
+            :disabled="page <= 1"
+            @click="goToPage(page - 1)"
         />
-        <span class='text-label-small'>
+        <span class="text-label-small">
               Page {{ page }} of {{ pageCount }}
             </span>
         <v-btn
-            icon='mdi-chevron-right'
-            size='small'
-            variant='text'
-            :disabled='page >= pageCount'
-            @click='goToPage(page + 1)'
+            icon="mdi-chevron-right"
+            size="small"
+            variant="text"
+            :disabled="page >= pageCount"
+            @click="goToPage(page + 1)"
         />
       </div>
     </template>
@@ -182,7 +182,7 @@ const { history, loading, error, page, pageCount, goToPage } = useStatusHistory(
   color: rgba(15, 23, 42, 0.5);
 }
 
-/* Use timeline's full-width */
+/* Use timeline"s full-width */
 :deep(.v-timeline) {
   width: 100%;
 }
@@ -235,7 +235,7 @@ const { history, loading, error, page, pageCount, goToPage } = useStatusHistory(
 }
 
 .timeline-entry__time {
-  font-family: 'Inter', monospace;
+  font-family: "Inter", monospace;
   font-size: 11px;
   font-variant-numeric: tabular-nums;
   color: rgba(15,23, 42, 0.45);
