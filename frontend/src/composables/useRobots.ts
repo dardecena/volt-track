@@ -8,14 +8,15 @@ const robots = ref<Robot[]>([]);
 const loading = ref(false);
 const error = ref<string | null>(null);
 
-async function loadRobots() {
+async function loadRobots(): Promise<boolean> {
     loading.value = true;
     error.value = null;
-
     try {
         robots.value = await robotsApi.fetchRobots();
+        return true;
     } catch (err) {
         error.value = extractErrorMessage(err);
+        return false;
     } finally {
         loading.value = false;
     }
