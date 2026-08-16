@@ -2,11 +2,15 @@
 import { ref } from "vue";
 import { useRobots } from "../composables/useRobots";
 import {toDatetimeLocal} from "frontend/src/utils/datetime.ts";
+import BatteryIndicator from "./BatteryIndicator.vue";
+import StatusChip from "./StatusChip.vue";
 
-
+const props = defineProps<{
+  selectedRobotId: string | null;
+}>()
 const emit = defineEmits<{ select: [string] }>();
 const { robots, loading, error, loadRobots } = useRobots();
-error.value = "LKDdJLS"
+
 const showRefreshed = ref(false)
 
 async function retry() {
@@ -55,6 +59,7 @@ async function retry() {
             v-for="robot in robots"
             :key="robot.id"
             class="fleet-row"
+            :class="{ 'fleet-row--selected': robot.id === selectedRobotId }"
             @click="emit('select', robot.id)"
           >
             <!-- Robot ID -->
@@ -68,22 +73,32 @@ async function retry() {
             </td>
 
             <!-- Status -->
-            <td v-if="robot.latestStatus">{{ robot.latestStatus.chargingState }}</td>
+            <td>
+              <StatusChip :status="robot.latestStatus" />
+            </td>
 
             <!-- Battery -->
             <td>
-              <span v-if="robot.latestStatus">{{ robot.latestStatus.batteryLevel }}</span>
+              <BatteryIndicator
+                  v-if="robot.latestStatus"
+                  :level="robot.latestStatus.batteryLevel"
+              />
               <span v-else class="text-medium-emphasis">-</span>
             </td>
 
             <!-- Timestamp -->
             <td>
-              <span v-if="robot.latestStatus">{{ toDatetimeLocal(robot.latestStatus.lastSeen) }}</span>
+              <span v-if="robot.latestStatus">
+                {{ toDatetimeLocal(robot.latestStatus.lastSeen) }}
+              </span>
               <span v-else class="text-medium-emphasis">None</span>
             </td>
           </tr>
+          <!-- No data available -->
           <tr v-if="!robots.length">
-            <td colspan="4" class="text-center text-medium-emphasis py-6">No robots found</td>
+            <td colspan="4" class="text-center text-medium-emphasis py-6">
+              No robots found
+            </td>
           </tr>
         </tbody>
       </v-table>
@@ -108,6 +123,14 @@ async function retry() {
   background: rgba(79, 70, 229, 0.04);
 }
 
+.fleet-row--selected {
+  background: rgba(79, 70, 229, 0.08);
+}
+
+.fleet-row--selected:hover {
+  background: rgba(79, 70, 229, 0.08);
+}
+
 .fleet-table__scroll {
   flex: 1;
   min-height: 0;
@@ -124,5 +147,9 @@ async function retry() {
   top: 0;
   background: white;
   z-index: 1;
+}
+
+:deep(.v-progress-linear__background) {
+  opacity: 1 !important;
 }
 </style>
